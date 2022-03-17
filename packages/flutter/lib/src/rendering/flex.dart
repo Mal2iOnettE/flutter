@@ -1227,7 +1227,14 @@ class RenderFlex extends RenderBox
   @override
   String toStringShort() {
     String header = super.toStringShort();
+<<<<<<< HEAD
     if (_hasOverflow) header += ' OVERFLOWING';
+=======
+    if (!kReleaseMode) {
+      if (_hasOverflow)
+        header += ' OVERFLOWING';
+    }
+>>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
     return header;
   }
 

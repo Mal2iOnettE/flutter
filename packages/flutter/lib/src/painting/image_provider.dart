@@ -144,8 +144,14 @@ class ImageConfiguration {
       hasArguments = true;
     }
     if (platform != null) {
+<<<<<<< HEAD
       if (hasArguments) result.write(', ');
       result.write('platform: ${describeEnum(platform!)}');
+=======
+      if (hasArguments)
+        result.write(', ');
+      result.write('platform: ${platform!.name}');
+>>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
       hasArguments = true;
     }
     result.write(')');
@@ -184,7 +190,7 @@ typedef DecoderCallback = Future<ui.Codec> Function(Uint8List bytes,
 /// The type argument does not have to be specified when using the type as an
 /// argument (where any image provider is acceptable).
 ///
-/// The following image formats are supported: {@macro flutter.dart:ui.imageFormats}
+/// The following image formats are supported: {@macro dart.ui.imageFormats}
 ///
 /// ## Lifecycle of resolving an image
 ///
@@ -334,12 +340,20 @@ abstract class ImageProvider<T extends Object> {
         await null; // wait an event turn in case a listener has been added to the image stream.
         InformationCollector? collector;
         assert(() {
+<<<<<<< HEAD
           collector = () sync* {
             yield DiagnosticsProperty<ImageProvider>('Image provider', this);
             yield DiagnosticsProperty<ImageConfiguration>(
                 'Image configuration', configuration);
             yield DiagnosticsProperty<T>('Image key', key, defaultValue: null);
           };
+=======
+          collector = () => <DiagnosticsNode>[
+            DiagnosticsProperty<ImageProvider>('Image provider', this),
+            DiagnosticsProperty<ImageConfiguration>('Image configuration', configuration),
+            DiagnosticsProperty<T>('Image key', key, defaultValue: null),
+          ];
+>>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
           return true;
         }());
         if (stream.completer == null) {
@@ -396,6 +410,7 @@ abstract class ImageProvider<T extends Object> {
         } else {
           InformationCollector? collector;
           assert(() {
+<<<<<<< HEAD
             collector = () sync* {
               yield DiagnosticsProperty<ImageProvider>('Image provider', this);
               yield DiagnosticsProperty<ImageConfiguration>(
@@ -403,6 +418,13 @@ abstract class ImageProvider<T extends Object> {
               yield DiagnosticsProperty<T>('Image key', key,
                   defaultValue: null);
             };
+=======
+            collector = () => <DiagnosticsNode>[
+              DiagnosticsProperty<ImageProvider>('Image provider', this),
+              DiagnosticsProperty<ImageConfiguration>('Image configuration', configuration),
+              DiagnosticsProperty<T>('Image key', key, defaultValue: null),
+            ];
+>>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
             return true;
           }());
           FlutterError.reportError(FlutterErrorDetails(
@@ -659,10 +681,10 @@ abstract class AssetBundleImageProvider
   ImageStreamCompleter load(AssetBundleImageKey key, DecoderCallback decode) {
     InformationCollector? collector;
     assert(() {
-      collector = () sync* {
-        yield DiagnosticsProperty<ImageProvider>('Image provider', this);
-        yield DiagnosticsProperty<AssetBundleImageKey>('Image key', key);
-      };
+      collector = () => <DiagnosticsNode>[
+        DiagnosticsProperty<ImageProvider>('Image provider', this),
+        DiagnosticsProperty<AssetBundleImageKey>('Image key', key),
+      ];
       return true;
     }());
     return MultiFrameImageStreamCompleter(
@@ -900,9 +922,9 @@ class FileImage extends ImageProvider<FileImage> {
       codec: _loadAsync(key, decode),
       scale: key.scale,
       debugLabel: key.file.path,
-      informationCollector: () sync* {
-        yield ErrorDescription('Path: ${file.path}');
-      },
+      informationCollector: () => <DiagnosticsNode>[
+        ErrorDescription('Path: ${file.path}'),
+      ],
     );
   }
 
@@ -960,7 +982,7 @@ class MemoryImage extends ImageProvider<MemoryImage> {
   /// The bytes to decode into an image.
   ///
   /// The bytes represent encoded image bytes and can be encoded in any of the
-  /// following supported image formats: {@macro flutter.dart:ui.imageFormats}
+  /// following supported image formats: {@macro dart.ui.imageFormats}
   ///
   /// See also:
   ///

@@ -1063,13 +1063,19 @@ class ListTile extends StatelessWidget {
   /// See also:
   ///
   ///  * [Divider], which you can use to obtain this effect manually.
+<<<<<<< HEAD
   static Iterable<Widget> divideTiles(
       {BuildContext? context,
       required Iterable<Widget> tiles,
       Color? color}) sync* {
+=======
+  static Iterable<Widget> divideTiles({ BuildContext? context, required Iterable<Widget> tiles, Color? color }) {
+>>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
     assert(tiles != null);
     assert(color != null || context != null);
+    tiles = tiles.toList();
 
+<<<<<<< HEAD
     final Iterator<Widget> iterator = tiles.iterator;
     final bool hasNext = iterator.moveNext();
 
@@ -1080,17 +1086,32 @@ class ListTile extends StatelessWidget {
         bottom: Divider.createBorderSide(context, color: color),
       ),
     );
+=======
+    if (tiles.isEmpty || tiles.length == 1) {
+      return tiles;
+    }
+>>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
 
-    Widget tile = iterator.current;
-    while (iterator.moveNext()) {
-      yield DecoratedBox(
+    Widget wrapTile(Widget tile) {
+      return DecoratedBox(
         position: DecorationPosition.foreground,
-        decoration: decoration,
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: Divider.createBorderSide(context, color: color),
+          ),
+        ),
         child: tile,
       );
-      tile = iterator.current;
     }
+<<<<<<< HEAD
     if (hasNext) yield tile;
+=======
+
+    return <Widget>[
+      ...tiles.take(tiles.length - 1).map(wrapTile),
+      tiles.last,
+    ];
+>>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
   }
 
   Color? _iconColor(ThemeData theme, ListTileThemeData tileTheme) {
@@ -1312,7 +1333,7 @@ enum _ListTileSlot {
   trailing,
 }
 
-class _ListTile extends RenderObjectWidget {
+class _ListTile extends RenderObjectWidget with SlottedMultiChildRenderObjectWidgetMixin<_ListTileSlot> {
   const _ListTile({
     Key? key,
     this.leading,
@@ -1353,7 +1374,21 @@ class _ListTile extends RenderObjectWidget {
   final double minLeadingWidth;
 
   @override
-  _ListTileElement createElement() => _ListTileElement(this);
+  Iterable<_ListTileSlot> get slots => _ListTileSlot.values;
+
+  @override
+  Widget? childForSlot(_ListTileSlot slot) {
+    switch (slot) {
+      case _ListTileSlot.leading:
+        return leading;
+      case _ListTileSlot.title:
+        return title;
+      case _ListTileSlot.subtitle:
+        return subtitle;
+      case _ListTileSlot.trailing:
+        return trailing;
+    }
+  }
 
   @override
   _RenderListTile createRenderObject(BuildContext context) {
@@ -1385,6 +1420,7 @@ class _ListTile extends RenderObjectWidget {
   }
 }
 
+<<<<<<< HEAD
 class _ListTileElement extends RenderObjectElement {
   _ListTileElement(_ListTile widget) : super(widget);
 
@@ -1491,6 +1527,9 @@ class _ListTileElement extends RenderObjectElement {
 }
 
 class _RenderListTile extends RenderBox {
+=======
+class _RenderListTile extends RenderBox with SlottedContainerRenderObjectMixin<_ListTileSlot> {
+>>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
   _RenderListTile({
     required bool isDense,
     required VisualDensity visualDensity,
@@ -1519,6 +1558,7 @@ class _RenderListTile extends RenderBox {
         _minVerticalPadding = minVerticalPadding,
         _minLeadingWidth = minLeadingWidth;
 
+<<<<<<< HEAD
   final Map<_ListTileSlot, RenderBox> children = <_ListTileSlot, RenderBox>{};
 
   RenderBox? _updateChild(
@@ -1564,6 +1604,26 @@ class _RenderListTile extends RenderBox {
     if (title != null) yield title!;
     if (subtitle != null) yield subtitle!;
     if (trailing != null) yield trailing!;
+=======
+  RenderBox? get leading => childForSlot(_ListTileSlot.leading);
+  RenderBox? get title => childForSlot(_ListTileSlot.title);
+  RenderBox? get subtitle => childForSlot(_ListTileSlot.subtitle);
+  RenderBox? get trailing => childForSlot(_ListTileSlot.trailing);
+
+  // The returned list is ordered for hit testing.
+  @override
+  Iterable<RenderBox> get children {
+    return <RenderBox>[
+      if (leading != null)
+        leading!,
+      if (title != null)
+        title!,
+      if (subtitle != null)
+        subtitle!,
+      if (trailing != null)
+        trailing!,
+    ];
+>>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
   }
 
   bool get isDense => _isDense;
@@ -1652,6 +1712,7 @@ class _RenderListTile extends RenderBox {
   }
 
   @override
+<<<<<<< HEAD
   void attach(PipelineOwner owner) {
     super.attach(owner);
     for (final RenderBox child in _children) child.attach(owner);
@@ -1688,6 +1749,8 @@ class _RenderListTile extends RenderBox {
   }
 
   @override
+=======
+>>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
   bool get sizedByParent => false;
 
   static double _minWidth(RenderBox? box, double height) {
@@ -1950,7 +2013,7 @@ class _RenderListTile extends RenderBox {
   @override
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     assert(position != null);
-    for (final RenderBox child in _children) {
+    for (final RenderBox child in children) {
       final BoxParentData parentData = child.parentData! as BoxParentData;
       final bool isHit = result.addWithPaintOffset(
         offset: parentData.offset,
