@@ -1506,34 +1506,8 @@ abstract class ParentDataWidget<T extends ParentData> extends ProxyWidget {
     assert(T != ParentData);
     assert(debugTypicalAncestorWidgetClass != null);
 
-<<<<<<< HEAD
     final String description =
         'The ParentDataWidget $this wants to apply ParentData of type $T to a RenderObject';
-    if (parentData == null) {
-      yield ErrorDescription(
-        '$description, which has not been set up to receive any ParentData.',
-      );
-    } else {
-      yield ErrorDescription(
-        '$description, which has been set up to accept ParentData of incompatible type ${parentData.runtimeType}.',
-      );
-    }
-    yield ErrorHint(
-      'Usually, this means that the $runtimeType widget has the wrong ancestor RenderObjectWidget. '
-      'Typically, $runtimeType widgets are placed directly inside $debugTypicalAncestorWidgetClass widgets.',
-    );
-    if (parentDataCreator != null) {
-      yield ErrorHint(
-        'The offending $runtimeType is currently placed inside a ${parentDataCreator.runtimeType} widget.',
-      );
-    }
-    if (ownershipChain != null) {
-      yield ErrorDescription(
-        'The ownership chain for the RenderObject that received the incompatible parent data was:\n  $ownershipChain',
-      );
-    }
-=======
-    final String description = 'The ParentDataWidget $this wants to apply ParentData of type $T to a RenderObject';
     return <DiagnosticsNode>[
       if (parentData == null)
         ErrorDescription(
@@ -1556,7 +1530,6 @@ abstract class ParentDataWidget<T extends ParentData> extends ProxyWidget {
           'The ownership chain for the RenderObject that received the incompatible parent data was:\n  $ownershipChain',
         ),
     ];
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
   }
 
   /// Write the data from this widget into the given render object's parent data.
@@ -2384,15 +2357,6 @@ abstract class BuildContext {
   /// data down to them.
   void visitChildElements(ElementVisitor visitor);
 
-<<<<<<< HEAD
-  /// Returns a description of an [Element] from the current build context.
-  DiagnosticsNode describeElement(String name,
-      {DiagnosticsTreeStyle style = DiagnosticsTreeStyle.errorProperty});
-
-  /// Returns a description of the [Widget] associated with the current build context.
-  DiagnosticsNode describeWidget(String name,
-      {DiagnosticsTreeStyle style = DiagnosticsTreeStyle.errorProperty});
-=======
   /// Returns a description of the [Element] associated with the current build context.
   ///
   /// The `name` is typically something like "The element being rebuilt was".
@@ -2400,13 +2364,14 @@ abstract class BuildContext {
   /// See also:
   ///
   ///  * [Element.describeElements], which can be used to describe a list of elements.
-  DiagnosticsNode describeElement(String name, {DiagnosticsTreeStyle style = DiagnosticsTreeStyle.errorProperty});
+  DiagnosticsNode describeElement(String name,
+      {DiagnosticsTreeStyle style = DiagnosticsTreeStyle.errorProperty});
 
   /// Returns a description of the [Widget] associated with the current build context.
   ///
   /// The `name` is typically something like "The widget being rebuilt was".
-  DiagnosticsNode describeWidget(String name, {DiagnosticsTreeStyle style = DiagnosticsTreeStyle.errorProperty});
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
+  DiagnosticsNode describeWidget(String name,
+      {DiagnosticsTreeStyle style = DiagnosticsTreeStyle.errorProperty});
 
   /// Adds a description of a specific type of widget missing from the current
   /// build context's ancestry tree.
@@ -2630,12 +2595,9 @@ class BuildOwner {
       _debugBuilding = true;
       return true;
     }());
-<<<<<<< HEAD
-    Timeline.startSync('Build',
-        arguments: timelineArgumentsIndicatingLandmarkEvent);
-=======
     if (!kReleaseMode) {
-      Map<String, String> debugTimelineArguments = timelineArgumentsIndicatingLandmarkEvent;
+      Map<String, String> debugTimelineArguments =
+          timelineArgumentsIndicatingLandmarkEvent;
       assert(() {
         if (debugProfileBuildsEnabled) {
           debugTimelineArguments = <String, String>{
@@ -2648,12 +2610,8 @@ class BuildOwner {
         }
         return true;
       }());
-      Timeline.startSync(
-        'BUILD',
-        arguments: debugTimelineArguments
-      );
+      Timeline.startSync('BUILD', arguments: debugTimelineArguments);
     }
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
     try {
       _scheduledFlushDirtyElements = true;
       if (callback != null) {
@@ -2687,13 +2645,8 @@ class BuildOwner {
         assert(element != null);
         assert(element._inDirtyList);
         assert(() {
-<<<<<<< HEAD
-          if (_dirtyElements[index]._lifecycleState ==
-                  _ElementLifecycle.active &&
-              !_dirtyElements[index]._debugIsInScope(context)) {
-=======
-          if (element._lifecycleState == _ElementLifecycle.active && !element._debugIsInScope(context)) {
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
+          if (element._lifecycleState == _ElementLifecycle.active &&
+              !element._debugIsInScope(context)) {
             throw FlutterError.fromParts(<DiagnosticsNode>[
               ErrorSummary(
                   'Tried to build dirty widget in the wrong build scope.'),
@@ -2722,9 +2675,11 @@ class BuildOwner {
           return true;
         }());
         if (!kReleaseMode && debugProfileBuildsEnabled) {
-          Map<String, String> debugTimelineArguments = timelineArgumentsIndicatingLandmarkEvent;
+          Map<String, String> debugTimelineArguments =
+              timelineArgumentsIndicatingLandmarkEvent;
           assert(() {
-            debugTimelineArguments = element.widget.toDiagnosticsNode().toTimelineArguments();
+            debugTimelineArguments =
+                element.widget.toDiagnosticsNode().toTimelineArguments();
             return true;
           }());
           Timeline.startSync(
@@ -2739,32 +2694,19 @@ class BuildOwner {
             ErrorDescription('while rebuilding dirty elements'),
             e,
             stack,
-<<<<<<< HEAD
-            informationCollector: () sync* {
-              if (index < _dirtyElements.length) {
-                yield DiagnosticsDebugCreator(
-                    DebugCreator(_dirtyElements[index]));
-                yield _dirtyElements[index].describeElement(
-                    'The element being rebuilt at the time was index $index of $dirtyCount');
-              } else {
-                yield ErrorHint(
-                    'The element being rebuilt at the time was index $index of $dirtyCount, but _dirtyElements only had ${_dirtyElements.length} entries. This suggests some confusion in the framework internals.');
-              }
-            },
-=======
             informationCollector: () => <DiagnosticsNode>[
               if (kDebugMode && index < _dirtyElements.length)
                 DiagnosticsDebugCreator(DebugCreator(element)),
               if (index < _dirtyElements.length)
-                element.describeElement('The element being rebuilt at the time was index $index of $dirtyCount')
+                element.describeElement(
+                    'The element being rebuilt at the time was index $index of $dirtyCount')
               else
-                ErrorHint('The element being rebuilt at the time was index $index of $dirtyCount, but _dirtyElements only had ${_dirtyElements.length} entries. This suggests some confusion in the framework internals.'),
+                ErrorHint(
+                    'The element being rebuilt at the time was index $index of $dirtyCount, but _dirtyElements only had ${_dirtyElements.length} entries. This suggests some confusion in the framework internals.'),
             ],
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
           );
         }
-        if (!kReleaseMode && debugProfileBuildsEnabled)
-          Timeline.finishSync();
+        if (!kReleaseMode && debugProfileBuildsEnabled) Timeline.finishSync();
         index += 1;
         if (dirtyCount < _dirtyElements.length ||
             _dirtyElementsNeedsResorting!) {
@@ -2843,27 +2785,19 @@ class BuildOwner {
   // In Profile/Release mode this field is initialized to `null`. The Dart compiler can
   // eliminate unused fields, but not their initializers.
   @_debugOnly
-  final Set<Element>? _debugIllFatedElements = kDebugMode ? HashSet<Element>() : null;
+  final Set<Element>? _debugIllFatedElements =
+      kDebugMode ? HashSet<Element>() : null;
 
   // This map keeps track which child reserves the global key with the parent.
   // Parent, child -> global key.
   // This provides us a way to remove old reservation while parent rebuilds the
   // child in the same slot.
-<<<<<<< HEAD
-  final Map<Element, Map<Element, GlobalKey>> _debugGlobalKeyReservations =
-      <Element, Map<Element, GlobalKey>>{};
-=======
-  //
-  // In Profile/Release mode this field is initialized to `null`. The Dart compiler can
-  // eliminate unused fields, but not their initializers.
-  @_debugOnly
-  final Map<Element, Map<Element, GlobalKey>>? _debugGlobalKeyReservations = kDebugMode ? <Element, Map<Element, GlobalKey>>{} : null;
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
+  final Map<Element, Map<Element, GlobalKey>>? _debugGlobalKeyReservations =
+      kDebugMode ? <Element, Map<Element, GlobalKey>>{} : null;
 
   /// The number of [GlobalKey] instances that are currently associated with
   /// [Element]s that have been built by this build owner.
   int get globalKeyCount => _globalKeyRegistry.length;
-
   void _debugRemoveGlobalKeyReservationFor(Element parent, Element child) {
     assert(() {
       assert(parent != null);
@@ -2914,12 +2848,8 @@ class BuildOwner {
   void _debugVerifyGlobalKeyReservation() {
     assert(() {
       final Map<GlobalKey, Element> keyToParent = <GlobalKey, Element>{};
-<<<<<<< HEAD
       _debugGlobalKeyReservations
-          .forEach((Element parent, Map<Element, GlobalKey> childToKey) {
-=======
-      _debugGlobalKeyReservations?.forEach((Element parent, Map<Element, GlobalKey> childToKey) {
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
+          ?.forEach((Element parent, Map<Element, GlobalKey> childToKey) {
         // We ignore parent that are unmounted or detached.
         if (parent._lifecycleState == _ElementLifecycle.defunct ||
             parent.renderObject?.attached == false) return;
@@ -3037,16 +2967,13 @@ class BuildOwner {
   /// about changes to global keys will run.
   @pragma('vm:notify-debugger-on-exception')
   void finalizeTree() {
-<<<<<<< HEAD
-    Timeline.startSync('Finalize tree',
-        arguments: timelineArgumentsIndicatingLandmarkEvent);
-=======
     if (!kReleaseMode) {
-      Timeline.startSync('FINALIZE TREE', arguments: timelineArgumentsIndicatingLandmarkEvent);
+      Timeline.startSync('FINALIZE TREE',
+          arguments: timelineArgumentsIndicatingLandmarkEvent);
     }
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
     try {
-      lockState(_inactiveElements._unmountAll); // this unregisters the GlobalKeys
+      lockState(
+          _inactiveElements._unmountAll); // this unregisters the GlobalKeys
       assert(() {
         try {
           _debugVerifyGlobalKeyReservation();
@@ -3620,26 +3547,20 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
         return true;
       }());
       if (hasSameSuperclass && child.widget == newWidget) {
-<<<<<<< HEAD
+        // We don't insert a timeline event here, because otherwise it's
+        // confusing that widgets that "don't update" (because they didn't
+        // change) get "charged" on the timeline.
         if (child.slot != newSlot) updateSlotForChild(child, newSlot);
         newChild = child;
       } else if (hasSameSuperclass &&
           Widget.canUpdate(child.widget, newWidget)) {
         if (child.slot != newSlot) updateSlotForChild(child, newSlot);
-=======
-        // We don't insert a timeline event here, because otherwise it's
-        // confusing that widgets that "don't update" (because they didn't
-        // change) get "charged" on the timeline.
-        if (child.slot != newSlot)
-          updateSlotForChild(child, newSlot);
-        newChild = child;
-      } else if (hasSameSuperclass && Widget.canUpdate(child.widget, newWidget)) {
-        if (child.slot != newSlot)
-          updateSlotForChild(child, newSlot);
         if (!kReleaseMode && debugProfileBuildsEnabled) {
-          Map<String, String> debugTimelineArguments = timelineArgumentsIndicatingLandmarkEvent;
+          Map<String, String> debugTimelineArguments =
+              timelineArgumentsIndicatingLandmarkEvent;
           assert(() {
-            debugTimelineArguments = newWidget.toDiagnosticsNode().toTimelineArguments();
+            debugTimelineArguments =
+                newWidget.toDiagnosticsNode().toTimelineArguments();
             return true;
           }());
           Timeline.startSync(
@@ -3647,10 +3568,8 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
             arguments: debugTimelineArguments,
           );
         }
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
         child.update(newWidget);
-        if (!kReleaseMode && debugProfileBuildsEnabled)
-          Timeline.finishSync();
+        if (!kReleaseMode && debugProfileBuildsEnabled) Timeline.finishSync();
         assert(child.widget == newWidget);
         assert(() {
           child.owner!._debugElementWasRebuilt(child);
@@ -3661,9 +3580,11 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
         deactivateChild(child);
         assert(child._parent == null);
         if (!kReleaseMode && debugProfileBuildsEnabled) {
-          Map<String, String> debugTimelineArguments = timelineArgumentsIndicatingLandmarkEvent;
+          Map<String, String> debugTimelineArguments =
+              timelineArgumentsIndicatingLandmarkEvent;
           assert(() {
-            debugTimelineArguments = newWidget.toDiagnosticsNode().toTimelineArguments();
+            debugTimelineArguments =
+                newWidget.toDiagnosticsNode().toTimelineArguments();
             return true;
           }());
           Timeline.startSync(
@@ -3672,14 +3593,15 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
           );
         }
         newChild = inflateWidget(newWidget, newSlot);
-        if (!kReleaseMode && debugProfileBuildsEnabled)
-          Timeline.finishSync();
+        if (!kReleaseMode && debugProfileBuildsEnabled) Timeline.finishSync();
       }
     } else {
       if (!kReleaseMode && debugProfileBuildsEnabled) {
-        Map<String, String> debugTimelineArguments = timelineArgumentsIndicatingLandmarkEvent;
+        Map<String, String> debugTimelineArguments =
+            timelineArgumentsIndicatingLandmarkEvent;
         assert(() {
-          debugTimelineArguments = newWidget.toDiagnosticsNode().toTimelineArguments();
+          debugTimelineArguments =
+              newWidget.toDiagnosticsNode().toTimelineArguments();
           return true;
         }());
         Timeline.startSync(
@@ -3688,8 +3610,7 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
         );
       }
       newChild = inflateWidget(newWidget, newSlot);
-      if (!kReleaseMode && debugProfileBuildsEnabled)
-        Timeline.finishSync();
+      if (!kReleaseMode && debugProfileBuildsEnabled) Timeline.finishSync();
     }
 
     assert(() {
@@ -3778,14 +3699,9 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
     // never updates (the forgotten children are not removed from the tree
     // until the call to update happens)
     assert(() {
-<<<<<<< HEAD
       _debugForgottenChildrenWithGlobalKey
-          .forEach(_debugRemoveGlobalKeyReservation);
-      _debugForgottenChildrenWithGlobalKey.clear();
-=======
-      _debugForgottenChildrenWithGlobalKey?.forEach(_debugRemoveGlobalKeyReservation);
+          ?.forEach(_debugRemoveGlobalKeyReservation);
       _debugForgottenChildrenWithGlobalKey?.clear();
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
       return true;
     }());
     _widget = newWidget;
@@ -4002,7 +3918,8 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
   // In Profile/Release mode this field is initialized to `null`. The Dart compiler can
   // eliminate unused fields, but not their initializers.
   @_debugOnly
-  final Set<Element>? _debugForgottenChildrenWithGlobalKey = kDebugMode ? HashSet<Element>() : null;
+  final Set<Element>? _debugForgottenChildrenWithGlobalKey =
+      kDebugMode ? HashSet<Element>() : null;
 
   /// Remove the given child from the element's child list, in preparation for
   /// the child being reused elsewhere in the element tree.
@@ -4938,13 +4855,6 @@ abstract class ComponentElement extends Element {
   @override
   @pragma('vm:notify-debugger-on-exception')
   void performRebuild() {
-<<<<<<< HEAD
-    if (!kReleaseMode && debugProfileBuildsEnabled)
-      Timeline.startSync('${widget.runtimeType}',
-          arguments: timelineArgumentsIndicatingLandmarkEvent);
-
-=======
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
     assert(_debugSetAllowIgnoredCallsToMarkNeedsBuild(true));
     Widget? built;
     try {
@@ -4966,8 +4876,7 @@ abstract class ComponentElement extends Element {
           e,
           stack,
           informationCollector: () => <DiagnosticsNode>[
-            if (kDebugMode)
-              DiagnosticsDebugCreator(DebugCreator(this)),
+            if (kDebugMode) DiagnosticsDebugCreator(DebugCreator(this)),
           ],
         ),
       );
@@ -4987,18 +4896,12 @@ abstract class ComponentElement extends Element {
           e,
           stack,
           informationCollector: () => <DiagnosticsNode>[
-            if (kDebugMode)
-              DiagnosticsDebugCreator(DebugCreator(this)),
+            if (kDebugMode) DiagnosticsDebugCreator(DebugCreator(this)),
           ],
         ),
       );
       _child = updateChild(null, built, slot);
     }
-<<<<<<< HEAD
-
-    if (!kReleaseMode && debugProfileBuildsEnabled) Timeline.finishSync();
-=======
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
   }
 
   /// Subclasses should override this function to actually call the appropriate
@@ -6804,11 +6707,7 @@ class _NullElement extends Element {
   bool get debugDoingBuild => throw UnimplementedError();
 
   @override
-<<<<<<< HEAD
-  void performRebuild() {}
-=======
   void performRebuild() => throw UnimplementedError();
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
 }
 
 class _NullWidget extends Widget {

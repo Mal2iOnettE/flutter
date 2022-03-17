@@ -476,28 +476,6 @@ class Cache {
     return overrideUrl;
   }
 
-<<<<<<< HEAD
-=======
-  /// The base for URLs that store Flutter engine artifacts in CIPD.
-  ///
-  /// For some platforms, such as Web and Fuchsia, CIPD artifacts are fetched
-  /// during the installation of the Flutter SDK, in addition to those fetched
-  /// from [storageBaseUrl].
-  ///
-  /// By default the base URL is https://chrome-infra-packages.appspot.com/dl.
-  /// However, if `FLUTTER_STORAGE_BASE_URL` environment variable is provided,
-  /// then the following value is used:
-  ///
-  ///     FLUTTER_STORAGE_BASE_URL/flutter_infra_release/cipd
-  ///
-  /// See also:
-  ///
-  ///  * [storageBaseUrl], which determines how engine artifacts stored in the
-  ///    Google Cloud Storage buckets are fetched.
-  ///  * https://chromium.googlesource.com/infra/luci/luci-go/+/refs/heads/main/cipd,
-  ///    which contains information about CIPD.
-  ///  * [Cache] class-level dartdocs that explain how artifact mirrors work.
->>>>>>> 7e9793dee1b85a243edd0e06cb1658e98b077561
   String get cipdBaseUrl {
     final String? overrideUrl = _platform.environment['FLUTTER_STORAGE_BASE_URL'];
     if (overrideUrl == null) {
